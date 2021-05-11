@@ -1,0 +1,26 @@
+{
+  "name": "static_template",
+  "version": "1.0.0",
+  "description": "这是静态网站的grunt模板",
+  "main": "gruntfile.js",
+  "scripts": {
+    "tasks": "grunt --help",
+    "build": "grunt",
+    "tasks": "grunt --help",
+    "tasks": "grunt --help",
+    "tasks": "grunt --help"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.4.0",
+    "grunt-cli": "^1.4.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^4.0.0",
+    "grunt-contrib-htmlmin": "^3.1.0",
+    "grunt-contrib-jshint": "^3.0.0",
+    "grunt-contrib-nodeunit": "^3.0.0",
+    "grunt-contrib-uglify": "^5.0.1"
+  }
+}
