@@ -1,6 +1,17 @@
 module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    babel: {
+      options: {
+        presets: ['@babel/preset-env']
+      },
+      build: {
+        expand: true,
+        cwd: 'src',
+        src: 'js/**/*.js',
+        dest: 'babel/',
+      }
+    },
     uglify: {
       options: {
         banner:
@@ -8,8 +19,8 @@ module.exports = function (grunt) {
       },
       build: {
         expand: true,
-        cwd: 'src',
-        src: 'js/*.js',
+        cwd: 'babel',
+        src: 'js/**/*.js',
         dest: 'dist/',
       },
     },
@@ -21,7 +32,7 @@ module.exports = function (grunt) {
       build: {
         expand: true,
         cwd: 'src',
-        src: 'css/*.css',
+        src: 'css/**/*.css',
         dest: 'dist/',
       },
     },
@@ -52,20 +63,15 @@ module.exports = function (grunt) {
         src: 'lib/**/*',
         dest: 'dist/',
       },
-      icon: {
-        expand: true,
-        cwd: 'src',
-        src: 'icon/**/*',
-        dest: 'dist/',
-      },
     },
   })
   // 加载包含 "uglify" 任务的插件。
+  grunt.loadNpmTasks('grunt-babel')
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-htmlmin')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-contrib-copy')
 
   // 默认被执行的任务列表。
-  grunt.registerTask('default', ['uglify', 'cssmin', 'htmlmin', 'copy'])
+  grunt.registerTask('default', ['babel', 'uglify', 'cssmin', 'htmlmin', 'copy'])
 }

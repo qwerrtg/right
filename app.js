@@ -6,6 +6,7 @@ const proxy = require('http-proxy-middleware')
 const file_path = process.argv[2] || 'src'
 
 const app = express()
+const port = 8000
 
 app.use(express.static(file_path))
 
@@ -20,4 +21,5 @@ app.use(
   })
 )
 
-app.listen(8000)
+console.log('http://localhost:' + port)
+app.listen(port)
