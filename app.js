@@ -1,10 +1,9 @@
 // 如果有必要使用Express，比如纯静态网页部分接口调试需要跨域代理等
-
 const express = require('express')
 const proxy = require('http-proxy-middleware')
+const os = require('os')
 
 const file_path = process.argv[2] || 'src'
-
 const app = express()
 const port = 8000
 
@@ -21,5 +20,20 @@ app.use(
   })
 )
 
-console.log('http://localhost:' + port)
+// 获取本机IP
+function getIPAdress() {
+  const interfaces = os.networkInterfaces()
+  for (const devName in interfaces) {
+    const iface = interfaces[devName]
+    for (let i = 0; i < iface.length; i++) {
+      const alias = iface[i]
+      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+        return alias.address
+      }
+    }
+  }
+}
+const host = getIPAdress()
+
+console.log(`http://${host}:${port}`)
 app.listen(port)
