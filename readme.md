@@ -4,6 +4,10 @@
 
 HTML5, CSS3, JavaScript, Grunt, Express, live-server
 
+## 开发
+
+如无特殊配置，直接在src内进行静态开发即可
+
 ## 流程
 
 ### 无代理需求
