@@ -15,8 +15,18 @@
     <p>Static Template</p>
     <p>请在src目录下进行业务开发，并遵循<a href="https://wiki.geely.com/pages/viewpage.action?pageId=3996866" target="_blank">内部文档</a>的规则，尤其是命名</p>
 
+    <!-- 复用标签块使用这种 -->
+    <template id="demo_tempalte">
+      <div>
+        <p>${p}</p>
+        <a href="${href}">${a}</a>
+      </div>
+    </template>
+
     <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
     <script src="lib/a.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/http.js"></script>
     <script src="js/index.js"></script>
   </body>
 </html>

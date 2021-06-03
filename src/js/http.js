@@ -22,7 +22,7 @@
       alert(res.data.message)
       data = null
     }
-    return data || failHandler('没有数据返回', { error: res.data.message })
+    return data || failHandler('没有数据返回', { error: res.data.message, data: res.data })
   })
 
   /**
