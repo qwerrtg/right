@@ -4,7 +4,8 @@ function test() {
   console.log('test run')
   // 错误调试
   new HTTP()
-    .get('/api/test_proxy')
+    .post('/api/test_proxy')
+    .forceQuery({a: 1, b: 2})
     .do()
     .then((ret) => {
       return ret.text()
@@ -17,13 +18,13 @@ function test() {
       // 错误调试
       console.log(error)
     })
-  fetch('/api/test_proxy')
-    .then((ret) => {
-      return ret.text()
-    })
-    .then((text) => {
-      console.log(text)
-    })
+  // fetch('/api/test_proxy')
+  //   .then((ret) => {
+  //     return ret.text()
+  //   })
+  //   .then((text) => {
+  //     console.log(text)
+  //   })
 }
 
 test()

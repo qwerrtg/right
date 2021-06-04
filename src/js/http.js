@@ -8,9 +8,6 @@
   let http = axios.create({
     // baseURL: process.env.BASE_API, // api 的 base_url
     timeout: 30000, // 请求时间
-    headers: {
-      'Content-Type': 'application/json',
-    },
   })
 
   // 添加响应拦截器，客户端显示
@@ -116,6 +113,20 @@
      */
     query(body = {}) {
       this.config.params = body
+      return this
+    }
+
+    /**
+     * post强行装载query数据
+     * @param {object} body 参数
+     * @returns 自身
+     */
+    forceQuery(body) {
+      const query_string = Object.keys(body).reduce((p, c) => {
+        p += `${c}=${body[c]}&`
+        return p
+      }, '')
+      this.config.url += '?' + query_string.slice(0, query_string.length - 1)
       return this
     }
 
