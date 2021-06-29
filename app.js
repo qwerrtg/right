@@ -17,17 +17,17 @@ console.log({is_dev, is_pro});
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-let renderPath
-let baseUrl
+let render_path
+let base_url
 
 if (is_dev) {
-  renderPath = 'src/'
-  baseUrl = 'https://zhuanlan.zhihu.com'
+  render_path = 'src/'
+  base_url = 'https://zhuanlan.zhihu.com'
 } else {
-  renderPath = 'dist/'
-  baseUrl = 'https://zhuanlan.zhihu.com'
+  render_path = 'dist/'
+  base_url = 'https://zhuanlan.zhihu.com'
 }
-app.use(express.static(path.join(__dirname, renderPath)))
+app.use(express.static(path.join(__dirname, render_path)))
 
 // app.use(
 //   '/api/test_proxy',
@@ -56,7 +56,7 @@ app.post('*', async (req, res) => {
     console.log(req.query);
     console.log(req.headers);
     console.log(req.url);
-    const _res = await _http(baseUrl + req.url, {method: 'GET', body: req.query})
+    const _res = await _http(base_url + req.url, {method: 'GET', body: req.query})
     /**
      * 处理返回逻辑
     */
