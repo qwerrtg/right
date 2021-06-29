@@ -5,10 +5,10 @@
   "main": "gruntfile.js",
   "scripts": {
     "tasks": "grunt --help",
-    "dev": "cross-env environment=development nodemon app.js",
-    "pro": "bash ./build.sh",
-    "preview": "node app.js dist",
-    "build": "grunt"
+    "start": "cross-env environment=development node app.js",
+    "dev": "cross-env environsment=development nodemon app.js",
+    "build": "bash ./build.sh",
+    "generate": "grunt"
   },
   "keywords": [],
   "author": "",
