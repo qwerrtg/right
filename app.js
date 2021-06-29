@@ -56,7 +56,7 @@ app.post('*', async (req, res) => {
     console.log(req.query);
     console.log(req.headers);
     console.log(req.url);
-    const _res = _http(baseUrl, {method: 'GET', body: req.query})
+    const _res = await _http(baseUrl + req.url, {method: 'GET', body: req.query})
     /**
      * 处理返回逻辑
     */
