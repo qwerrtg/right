@@ -1,0 +1,16 @@
+html, body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  text-align: center;
+}
+
+img {
+  margin-top: 38vh;
+}
+
+.test-box {
+  width: 13.333333vw;
+}

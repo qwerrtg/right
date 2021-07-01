@@ -24,18 +24,7 @@ module.exports = function (grunt) {
         dest: 'dist/',
       },
     },
-    // cssmin: {
-    //   options: {
-    //     banner:
-    //       '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
-    //   },
-    //   build: {
-    //     expand: true,
-    //     cwd: 'src',
-    //     src: 'css/**/*.css',
-    //     dest: 'dist/',
-    //   },
-    // },
+    
     postcss: {
       options: {
         processors: [
@@ -53,14 +42,24 @@ module.exports = function (grunt) {
             exclude: [/node_modules/], // 设置忽略文件，用正则做目录名匹配
             landscape: false, // 是否处理横屏情况
           }),
-          // 压缩css 千万不要更新 ！！！
-          require('cssnano')()
         ],
       },
       dist: {
         expand: true,
         src: 'css/**/*.css',
         cwd: 'src',
+        dest: 'postcss/',
+      },
+    },
+    cssmin: {
+      options: {
+        banner:
+          '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+      },
+      build: {
+        expand: true,
+        cwd: 'postcss',
+        src: 'css/**/*.css',
         dest: 'dist/',
       },
     },
