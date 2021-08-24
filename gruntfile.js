@@ -63,6 +63,12 @@ module.exports = function (grunt) {
         src: 'lib/**/*',
         dest: 'dist/',
       },
+      img: {
+        expand: true,
+        cwd: 'src',
+        src: 'img/**/*',
+        dest: 'dist/',
+      },
     },
   })
   // 加载包含 "uglify" 任务的插件。
