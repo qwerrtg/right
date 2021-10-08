@@ -7,6 +7,8 @@
     "tasks": "grunt --help",
     "dev": "nodemon app.js --watch src/",
     "preview": "node app.js dist",
+    "build:dev": "cross-env NODE_ENV=development grunt",
+    "build:uat": "cross-env NODE_ENV=uat grunt",
     "build": "grunt"
   },
   "keywords": [],
@@ -15,6 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "grunt": "^1.4.0",
     "grunt-babel": "^8.0.0",
