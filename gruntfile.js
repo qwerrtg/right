@@ -1,45 +1,72 @@
 module.exports = function (grunt) {
+  // 加载包含 "uglify" 任务的插件。
+  grunt.loadNpmTasks('grunt-ejs')
+  grunt.loadNpmTasks('grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-contrib-uglify')
+  grunt.loadNpmTasks('grunt-contrib-htmlmin')
+  grunt.loadNpmTasks('grunt-contrib-cssmin')
+  grunt.loadNpmTasks('grunt-contrib-copy')
+
+  // 默认被执行的任务列表。
+  grunt.registerTask('default', ['ejs', 'uglify', 'cssmin', 'htmlmin', 'copy'])
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    babel: {
+    watch: {
+      files: ['src/ejs/**/*.ejs'],
+      tasks: ['ejs:build'],
+    },
+    ejs: {
       options: {
-        presets: ['@babel/preset-env']
+        banner: '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
       },
       build: {
         expand: true,
-        cwd: 'src',
-        src: 'js/**/*.js',
-        dest: 'babel/',
-      }
+        cwd: 'src/ejs',
+        src: ['**/*.ejs', '!common/**/*.ejs'],
+        dest: 'src/',
+        ext: '.html',
+      },
     },
     uglify: {
       options: {
-        banner:
-          '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        banner: '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
       },
       build: {
         expand: true,
-        cwd: 'babel',
-        src: 'js/**/*.js',
-        dest: 'dist/',
+        cwd: 'src/static',
+        src: 'js/*.js',
+        dest: 'dist/static/',
       },
     },
     cssmin: {
       options: {
-        banner:
-          '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        banner: '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
       },
       build: {
         expand: true,
+        cwd: 'src/static',
+        src: 'css/*.css',
+        dest: 'dist/static/',
+      },
+    },
+    copy: {
+      build: {
+        expand: true,
+        cwd: 'src/static',
+        src: 'libs/**/*',
+        dest: 'dist/static/',
+      },
+      favicon: {
+        expand: true,
         cwd: 'src',
-        src: 'css/**/*.css',
+        src: 'favicon.ico',
         dest: 'dist/',
       },
     },
     htmlmin: {
       options: {
-        banner:
-          '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        banner: '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
         collapseWhitespace: true,
         collapseBooleanAttributes: true,
         removeComments: true,
@@ -56,28 +83,5 @@ module.exports = function (grunt) {
         dest: 'dist/',
       },
     },
-    copy: {
-      lib: {
-        expand: true,
-        cwd: 'src',
-        src: 'lib/**/*',
-        dest: 'dist/',
-      },
-      img: {
-        expand: true,
-        cwd: 'src',
-        src: 'img/**/*',
-        dest: 'dist/',
-      },
-    },
   })
-  // 加载包含 "uglify" 任务的插件。
-  grunt.loadNpmTasks('grunt-babel')
-  grunt.loadNpmTasks('grunt-contrib-uglify')
-  grunt.loadNpmTasks('grunt-contrib-htmlmin')
-  grunt.loadNpmTasks('grunt-contrib-cssmin')
-  grunt.loadNpmTasks('grunt-contrib-copy')
-
-  // 默认被执行的任务列表。
-  grunt.registerTask('default', ['babel', 'uglify', 'cssmin', 'htmlmin', 'copy'])
 }
