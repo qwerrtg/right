@@ -2,3 +2,4 @@ node_modules/
 dist/
 babel/
 postcss/
+package-lock.json
