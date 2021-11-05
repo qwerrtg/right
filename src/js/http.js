@@ -1,4 +1,4 @@
-;(function () {
+!(function () {
   window.addEventListener('unhandledrejection', (event) => {
     console.group('未处理的reject错误')
     console.log('%c%s ↓↓↓%o', 'color: red;', event.reason && (event.reason.message || event.reason), event)
