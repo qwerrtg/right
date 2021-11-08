@@ -2,23 +2,78 @@
 const express = require('express')
 const proxy = require('http-proxy-middleware')
 const os = require('os')
+const path = require('path')
+const request = require('request')
+// const file_path = process.argv[2] || 'src'
 
-const file_path = process.argv[2] || 'src'
 const app = express()
 const port = 8000
 
-app.use(express.static(file_path))
+const is_dev = process.env.environment === 'development'
+const is_pro = process.env.environment === 'production'
+console.log({is_dev, is_pro});
 
-app.use(
-  '/api/test_proxy',
-  proxy.createProxyMiddleware({
-    target: 'https://www.baidu.com',
-    changeOrigin: true,
-    pathRewrite: {
-      '^/api/test_proxy': '/',
-    },
+// app.use(express.static(file_path))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
+let render_path
+let base_url
+
+if (is_dev) {
+  render_path = 'src/'
+  base_url = 'https://zhuanlan.zhihu.com'
+} else {
+  render_path = 'dist/'
+  base_url = 'https://zhuanlan.zhihu.com'
+}
+app.use(express.static(path.join(__dirname, render_path)))
+
+// app.use(
+//   '/api/test_proxy',
+//   proxy.createProxyMiddleware({
+//     target: 'https://www.baidu.com',
+//     changeOrigin: true,
+//     pathRewrite: {
+//       '^/api/test_proxy': '/',
+//     },
+//   })
+// )
+
+const _http = function(options) {
+  return new Promise((resolve, reject) => {
+    request(options, (error, response, body) => {
+      if (!error && response.statusCode === 200) {
+        resolve(body)
+      }
+      reject(error)
+    })
   })
-)
+}
+
+app.post('*', async (req, res) => {
+  try {
+    console.log(req.query);
+    console.log(req.headers);
+    console.log(req.url);
+    const _res = await _http(base_url + req.url, {method: 'GET', body: req.query})
+    /**
+     * 处理返回逻辑
+    */
+    res.send(_res)
+  } catch(e) {
+    /**
+     * 处理错误逻辑
+    */
+    res.send(e)
+  }
+
+
+})
+
+app.get('*', (req, res) => {
+  res.sendfile('./src/404.html')
+})
 
 // 获取本机IP
 function getIPAdress() {

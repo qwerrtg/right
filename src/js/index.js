@@ -4,8 +4,8 @@ function test() {
   console.log('test run')
   // 错误调试
   new HTTP()
-    .post('/api/test_proxy')
-    .forceQuery({a: 1, b: 2})
+    .post('/api/articles/97510494/recommendation')
+    .forceQuery({include:'data%5B*%5D.article.column', limit: '12', offset: '0'})
     .do()
     .then((ret) => {
       return ret.text()
