@@ -15,7 +15,7 @@
     // 对响应数据做点什么，true是解决成功但是data为null的情况
     let data = res.data.data || true
     // 目前只有fail这种不正常状态
-    let empty_message = '没有数据返回'
+    let empty_message = '接口没有数据返回'
     if (res.data.code !== 'success') {
       alert(res.data.message || empty_message)
       data = null
