@@ -15,17 +15,18 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     watch: {
       files: ['src/ejs/**/*.ejs'],
-      tasks: ['ejs:build'],
+      tasks: ['ejs'],
     },
     ejs: {
       options: {
-        presets: ['@babel/preset-env'],
+        banner: '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
       },
       build: {
         expand: true,
-        cwd: 'src',
-        src: 'js/**/*.js',
-        dest: 'babel/',
+        cwd: 'src/ejs',
+        src: ['**/*.ejs', '!common/**/*.ejs'],
+        dest: 'src/',
+        ext: '.html',
       },
     },
     uglify: {
@@ -39,7 +40,7 @@ module.exports = function (grunt) {
         dest: 'dist/static/',
       },
     },
-    
+
     postcss: {
       options: {
         processors: [
@@ -117,14 +118,4 @@ module.exports = function (grunt) {
       },
     },
   })
-  // 加载包含 "uglify" 任务的插件。
-  grunt.loadNpmTasks('grunt-babel')
-  grunt.loadNpmTasks('grunt-contrib-uglify')
-  grunt.loadNpmTasks('grunt-contrib-htmlmin')
-  // grunt.loadNpmTasks('grunt-contrib-cssmin')
-  grunt.loadNpmTasks('grunt-contrib-copy')
-  grunt.loadNpmTasks('grunt-postcss')
-
-  // 默认被执行的任务列表。
-  grunt.registerTask('default', ['babel', 'uglify', 'postcss', 'htmlmin', 'copy'])
 }

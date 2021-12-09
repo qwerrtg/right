@@ -7,6 +7,7 @@
     "tasks": "grunt --help",
     "start": "cross-env environment=development node app.js",
     "dev": "cross-env environsment=development nodemon app.js",
+    "watch": "grunt watch",
     "build": "bash ./build.sh",
     "generate": "grunt",
     "lint": "eslint ."
@@ -29,6 +30,8 @@
     "grunt-contrib-jshint": "^3.0.0",
     "grunt-contrib-nodeunit": "^3.0.0",
     "grunt-contrib-uglify": "^5.0.1",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-ejs": "^1.0.0",
     "grunt-postcss": "^0.9.0",
     "http-proxy-middleware": "^2.0.0",
     "nodemon": "^2.0.7",
