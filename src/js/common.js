@@ -5,3 +5,5 @@ String.prototype.template2string = function (params) {
 }
 
 String.prototype.temp2str = String.prototype.template2string
+
+window.lf = localforage

@@ -36,3 +36,8 @@ const demp_template_string = document.querySelector('#demo_tempalte').innerHTML.
 })
 
 console.log({ demp_template_string })
+
+lf.setItem('test_value', 'localforage\'s i am test value.').then(ret => {
+  console.log(ret)
+  lf.getItem('test_value').then(alert)
+})
