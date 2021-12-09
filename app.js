@@ -11,7 +11,7 @@ const port = 8000
 
 const is_dev = process.env.environment === 'development'
 const is_pro = process.env.environment === 'production'
-console.log({is_dev, is_pro});
+console.log({is_dev, is_pro})
 
 // app.use(express.static(file_path))
 app.use(express.json())
@@ -29,16 +29,16 @@ if (is_dev) {
 }
 app.use(express.static(path.join(__dirname, render_path)))
 
-// app.use(
-//   '/api/test_proxy',
-//   proxy.createProxyMiddleware({
-//     target: 'https://www.baidu.com',
-//     changeOrigin: true,
-//     pathRewrite: {
-//       '^/api/test_proxy': '/',
-//     },
-//   })
-// )
+app.use(
+  '/api/test_proxy',
+  proxy.createProxyMiddleware({
+    target: 'https://www.baidu.com',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/api/test_proxy': '/',
+    },
+  })
+)
 
 const _http = function(options) {
   return new Promise((resolve, reject) => {
