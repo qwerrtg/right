@@ -5,8 +5,8 @@
   "main": "gruntfile.js",
   "scripts": {
     "tasks": "grunt --help",
-    "start": "node app.js",
-    "dev": "cross-env NODE_ENV=development nodemon app.js",
+    "start": "node app.pro.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.dev.js",,
     "watch": "grunt watch",
     "build": "bash ./build.sh",
     "generate": "grunt",

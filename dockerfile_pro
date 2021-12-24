@@ -6,4 +6,4 @@ RUN npm config set registry https://nus.geely.com/repository/npm-taobao/
 RUN npm install
 RUN npm run generate
 EXPOSE 11610
-CMD ["node", "app.js"]
+CMD ["node", "app.pro.js"]
