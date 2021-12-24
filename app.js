@@ -9,9 +9,10 @@ const request = require('request')
 const app = express()
 const port = 8000
 
-const is_dev = process.env.environment === 'development'
-const is_pro = process.env.environment === 'production'
-console.log({is_dev, is_pro})
+const NODE_ENV = process.env.NODE_ENV
+const is_dev = NODE_ENV === 'development'
+const is_pro = NODE_ENV === 'production'
+console.log({ is_dev, is_pro })
 
 // app.use(express.static(file_path))
 app.use(express.json())
@@ -40,7 +41,7 @@ app.use(express.static(path.join(__dirname, render_path)))
 //   })
 // )
 
-const _http = function(options) {
+const _http = function (options) {
   return new Promise((resolve, reject) => {
     request(options, (error, response, body) => {
       if (!error && response.statusCode === 200) {
@@ -53,22 +54,20 @@ const _http = function(options) {
 
 app.post('*', async (req, res) => {
   try {
-    console.log(req.query);
-    console.log(req.headers);
-    console.log(req.url);
-    const _res = await _http(base_url + req.url, {method: 'GET', body: req.query})
+    console.log(req.query)
+    console.log(req.headers)
+    console.log(req.url)
+    const _res = await _http(base_url + req.url, { method: 'GET', body: req.query })
     /**
      * 处理返回逻辑
-    */
+     */
     res.send(_res)
-  } catch(e) {
+  } catch (e) {
     /**
      * 处理错误逻辑
-    */
+     */
     res.send(e)
   }
-
-
 })
 
 app.get('*', (req, res) => {

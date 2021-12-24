@@ -1,5 +1,7 @@
 console.log(1)
 
+console.log({NODE_ENV: '@@NODE_ENV'})
+
 function test() {
   console.log('test run')
   // 错误调试

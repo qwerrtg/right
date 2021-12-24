@@ -1,3 +1,7 @@
+const NODE_ENV = process.env.NODE_ENV
+const is_dev = NODE_ENV === 'development'
+const is_pro = NODE_ENV === 'production'
+console.log({ is_dev, is_pro })
 
 module.exports = function (grunt) {
   // 加载包含 "uglify" 任务的插件。
@@ -7,9 +11,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-htmlmin')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-contrib-copy')
-
+  grunt.loadNpmTasks('grunt-replace')
+  grunt.loadNpmTasks('grunt-postcss')
   // 默认被执行的任务列表。
-  grunt.registerTask('default', ['ejs', 'uglify', 'cssmin', 'htmlmin', 'copy'])
+  grunt.registerTask('default', ['ejs', 'replace', 'uglify', 'postcss', 'cssmin', 'htmlmin', 'copy'])
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -17,13 +22,30 @@ module.exports = function (grunt) {
       files: ['src/ejs/**/*.ejs'],
       tasks: ['ejs'],
     },
+    // 替换内置变量，@@开头。
+    replace: {
+      options: {
+        patterns: [
+          {
+            match: 'NODE_ENV',
+            replacement: NODE_ENV,
+          },
+        ],
+      },
+      build: {
+        expand: true,
+        cwd: 'src',
+        src: '**/*',
+        dest: 'replace/',
+      },
+    },
     ejs: {
       options: {
         banner: '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
       },
       build: {
         expand: true,
-        cwd: 'src/ejs',
+        cwd: 'replace/ejs',
         src: ['**/*.ejs', '!common/**/*.ejs'],
         dest: 'src/',
         ext: '.html',
@@ -35,12 +57,11 @@ module.exports = function (grunt) {
       },
       build: {
         expand: true,
-        cwd: 'src',
-        src: 'js/*.js',
+        cwd: 'replace',
+        src: 'js/**/*.js',
         dest: 'dist/',
       },
     },
-
     postcss: {
       options: {
         processors: [
@@ -62,8 +83,8 @@ module.exports = function (grunt) {
       },
       dist: {
         expand: true,
+        cwd: 'replace',
         src: 'css/**/*.css',
-        cwd: 'src',
         dest: 'postcss/',
       },
     },
@@ -92,7 +113,7 @@ module.exports = function (grunt) {
       },
       build: {
         expand: true,
-        cwd: 'src',
+        cwd: 'replace',
         src: '**/*.html',
         dest: 'dist/',
       },
