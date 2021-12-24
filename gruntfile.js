@@ -1,6 +1,6 @@
 const NODE_ENV = process.env.NODE_ENV
 const is_dev = NODE_ENV === 'development'
-const is_pro = NODE_ENV === 'production'
+const is_pro = !is_dev
 console.log({ is_dev, is_pro })
 
 module.exports = function (grunt) {

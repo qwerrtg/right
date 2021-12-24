@@ -5,11 +5,11 @@
   "main": "gruntfile.js",
   "scripts": {
     "tasks": "grunt --help",
-    "start": "cross-env NODE_ENV=development node app.js",
+    "start": "node app.js",
     "dev": "cross-env NODE_ENV=development nodemon app.js",
     "watch": "grunt watch",
     "build": "bash ./build.sh",
-    "generate": "cross-env NODE_ENV=production grunt",
+    "generate": "grunt",
     "generate:dev": "cross-env NODE_ENV=development grunt",
     "lint": "eslint ."
   },
