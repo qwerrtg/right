@@ -17,7 +17,7 @@
     // 目前只有fail这种不正常状态
     let empty_message = '接口没有数据返回'
     if (res.data.code !== 'success') {
-      alert(res.data.message || empty_message)
+      console.log(res.data.message || empty_message)
       data = null
     }
     return data || failHandler(empty_message, { error: res.data.message, data: res.data })
@@ -162,8 +162,76 @@
     }
   }
 
+  let proxy_instance = null
+
+  class ProxyRequest extends Request {
+    constructor(payload) {
+      super(payload)
+      this.interval = null
+      this.timeout = null
+
+      // 若要求防抖或节流，则返回已有实例
+      if (proxy_instance) return proxy_instance
+      else proxy_instance = null
+    }
+
+    /**
+     * 节流，市场内执行第一次
+     * @param {object} payload 相关参数：{time: 延时时长}
+     * @returns
+     */
+    throttle(payload) {
+      this.throttle_time = payload.time || 300
+      proxy_instance = this
+      return this
+    }
+
+    /**
+     * 防抖，时长内执行最后一次
+     * @param {object} payload 相关参数：{time: 延时时长}
+     * @returns
+     */
+    debounce(payload) {
+      this.debounce_time = payload.time || 300
+      proxy_instance = this
+      return this
+    }
+
+    do() {
+      if (this.throttle_time && proxy_instance) {
+        let error_result = Promise.reject(new Error('节流中...'))
+        if (proxy_instance.timeout) return error_result
+        let result = super.do()
+        result = error_result
+        proxy_instance.timeout = setTimeout(() => {
+          clearTimeout(proxy_instance.timeout)
+          proxy_instance = null
+        }, this.throttle_time)
+        return result
+      }
+
+      if (this.debounce_time && proxy_instance) {
+        let result = Promise.reject(new Error('防抖中...'))
+        if (proxy_instance.timeout) return result
+        proxy_instance.timeout = setTimeout(() => {
+          clearTimeout(proxy_instance.timeout)
+          proxy_instance = null
+          result = super.do()
+        }, this.debounce_time)
+        return result
+      }
+
+      return super.do()
+    }
+  }
+
   // 返回新对象是为了避免loading冲突
   window.HTTP = function HTTP() {
     return new Request()
+  }
+
+  // 返回新对象是为了避免loading冲突
+  window.ProxyHTTP = function ProxyHTTP() {
+    return new ProxyRequest()
   }
 })()
