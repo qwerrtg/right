@@ -39,15 +39,11 @@
     return body
   }
 
-  class Request {
-    // 静默状态，即不用弹loading
-    silence = false
+  class BaseRequest {
     // 请求统一配置
     config = {
       method: 'get',
     }
-    // 其他业务配置参数
-    extra = {}
 
     /**
      * 开始
@@ -132,6 +128,35 @@
     }
 
     /**
+     * 错误码处理 TODO: 待处理错误码
+     * @param {number | string} error_code 错误码
+     * @returns 待处理
+     */
+    errorCodeHandler(error_code) {
+      console.log({ error_code })
+      return 'any'
+    }
+  }
+
+  let proxy_instance = null
+
+  class ProxyRequest extends BaseRequest {
+    // 静默状态，即不用弹loading
+    silence = false
+    // 其他业务配置参数
+    extra = {}
+
+    constructor(payload) {
+      super(payload)
+      this.interval = null
+      this.timeout = null
+
+      // 若要求防抖或节流，则返回已有实例
+      if (proxy_instance) return proxy_instance
+      else proxy_instance = null
+    }
+
+    /**
      * 装载其他配置参数
      * @param {object} body 其他参数
      * @returns 自身
@@ -148,31 +173,6 @@
     calm() {
       this.silence = true
       return this
-    }
-
-    // adapters
-    /**
-     * 错误码处理 TODO: 待处理错误码
-     * @param {number | string} error_code 错误码
-     * @returns 待处理
-     */
-    errorCodeHandler(error_code) {
-      console.log({ error_code })
-      return 'any'
-    }
-  }
-
-  let proxy_instance = null
-
-  class ProxyRequest extends Request {
-    constructor(payload) {
-      super(payload)
-      this.interval = null
-      this.timeout = null
-
-      // 若要求防抖或节流，则返回已有实例
-      if (proxy_instance) return proxy_instance
-      else proxy_instance = null
     }
 
     /**
@@ -197,6 +197,10 @@
       return this
     }
 
+    /**
+     * 复写代理一些其他操作
+     * @returns Promise
+     */
     do() {
       if (this.throttle_time && proxy_instance) {
         let error_result = Promise.reject(new Error('节流中...'))
@@ -226,12 +230,12 @@
   }
 
   // 返回新对象是为了避免loading冲突
-  window.HTTP = function HTTP() {
-    return new Request()
+  window.BaseHTTP = function BaseHTTP() {
+    return new BaseRequest()
   }
 
   // 返回新对象是为了避免loading冲突
-  window.ProxyHTTP = function ProxyHTTP() {
+  window.HTTP = function HTTP() {
     return new ProxyRequest()
   }
 })()

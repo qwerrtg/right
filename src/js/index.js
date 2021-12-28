@@ -5,7 +5,7 @@ console.log({ NODE_ENV: '@@NODE_ENV' })
 function test() {
   console.log('test run')
   // 错误调试
-  new ProxyHTTP()
+  new HTTP()
     .post('https://bomt-dev.test.geely.com/bomt-common-server/areaQuery')
     .forceQuery({ include: 'data%5B*%5D.article.column', limit: '12', offset: '0' })
     .throttle({ time: 3000 })
