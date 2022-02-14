@@ -5,10 +5,10 @@ app.run({
   is_dev: true,
   instanceHandler: (instance) =>
     instance.use(
-      '/api',
-      proxy('www.baidu.com', {
+      '/china-year',
+      proxy('https://app-console-test.test.geely.com', {
         proxyReqPathResolver(req, res) {
-          resolve(req.originalUrl)
+          return req.originalUrl
         },
       })
     ),

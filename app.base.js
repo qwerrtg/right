@@ -24,7 +24,6 @@ function getIPAdress() {
 }
 
 module.exports = {
-  instance: app,
   run({ is_dev, is_pro, instanceHandler }) {
     console.log({ is_dev, is_pro })
 
