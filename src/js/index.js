@@ -21,16 +21,16 @@ function test() {
       // 错误调试
       console.log(error)
     })
-  // fetch('/api/test_proxy')
-  //   .then((ret) => {
-  //     return ret.text()
-  //   })
-  //   .then((text) => {
-  //     console.log(text)
-  //   })
+  fetch('/api/test_proxy')
+    .then((ret) => {
+      return ret.text()
+    })
+    .then((text) => {
+      console.log(text)
+    })
 }
 
-// test()
+test()
 
 const demp_template_string = document.querySelector('#demo_tempalte').innerHTML.temp2str({
   p: 'im p',

@@ -24,7 +24,8 @@ function getIPAdress() {
 }
 
 module.exports = {
-  run({ is_dev, is_pro }) {
+  instance: app,
+  run({ is_dev, is_pro, instanceHandler }) {
     console.log({ is_dev, is_pro })
 
     let render_path
@@ -33,6 +34,7 @@ module.exports = {
     if (is_dev) {
       render_path = 'src/'
       base_url = 'https://dev.com'
+      instanceHandler && instanceHandler(app)
     } else {
       render_path = 'dist/'
       base_url = 'https://pro.com'
