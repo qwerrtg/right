@@ -6,8 +6,9 @@
   "scripts": {
     "tasks": "grunt --help",
     "start": "node app.js",
-    "dev": "cross-env NODE_ENV=development nodemon app.dev.js",
-    "watch": "grunt watch",
+    "dev": "concurrently 'npm:devlocal' 'npm:watch'",
+    "devlocal": "cross-env NODE_ENV=development nodemon app.dev.js",
+    "watch": "cross-env NODE_ENV=development grunt watch",
     "build": "bash ./build.sh",
     "generate": "grunt",
     "generate:dev": "cross-env NODE_ENV=development grunt",
@@ -39,5 +40,8 @@
     "nodemon": "^2.0.15",
     "postcss-px-to-viewport": "^1.1.1",
     "request": "^2.88.2"
+  },
+  "dependencies": {
+    "concurrently": "^7.0.0"
   }
 }
