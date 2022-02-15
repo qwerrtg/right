@@ -3,10 +3,12 @@ const is_dev = NODE_ENV === 'development'
 const is_pro = !is_dev
 console.log({ is_dev, is_pro })
 
+const fs = require('fs')
+let index_js = fs.readFileSync('src/js/index.js', 'utf-8')
+fs.writeFileSync('src/js/index.js', index_js.replace(/const\sNODE_ENV.*/, `const NODE_ENV = '${NODE_ENV}'`))
+
 module.exports = function (grunt) {
-  // 加载包含 "uglify" 任务的插件。
-  grunt.loadNpmTasks('grunt-ejs')
-  grunt.loadNpmTasks('grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-babel')
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-htmlmin')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
@@ -14,42 +16,20 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-replace')
   grunt.loadNpmTasks('grunt-postcss')
   // 默认被执行的任务列表。
-  grunt.registerTask('default', ['ejs', 'replace', 'uglify', 'postcss', 'cssmin', 'htmlmin', 'copy'])
+  grunt.registerTask('default', ['babel', 'uglify', 'postcss', 'cssmin', 'htmlmin', 'copy'])
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    watch: {
-      files: ['src/ejs/**/*.ejs'],
-      tasks: ['ejs'],
-    },
-    // 替换内置变量，@@开头。
-    replace: {
+    babel: {
       options: {
-        patterns: [
-          {
-            match: 'NODE_ENV',
-            replacement: NODE_ENV,
-          },
-        ],
+        presets: ['@babel/preset-env']
       },
       build: {
         expand: true,
         cwd: 'src',
-        src: '**/*',
-        dest: 'replace/',
-      },
-    },
-    ejs: {
-      options: {
-        banner: '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
-      },
-      build: {
-        expand: true,
-        cwd: 'replace/ejs',
-        src: ['**/*.ejs', '!common/**/*.ejs'],
-        dest: 'src/',
-        ext: '.html',
-      },
+        src: 'js/**/*.js',
+        dest: 'babel/',
+      }
     },
     uglify: {
       options: {
@@ -57,7 +37,7 @@ module.exports = function (grunt) {
       },
       build: {
         expand: true,
-        cwd: 'replace',
+        cwd: 'babel',
         src: 'js/**/*.js',
         dest: 'dist/',
       },
@@ -83,7 +63,7 @@ module.exports = function (grunt) {
       },
       dist: {
         expand: true,
-        cwd: 'replace',
+        cwd: 'src',
         src: 'css/**/*.css',
         dest: 'postcss/',
       },
@@ -113,7 +93,7 @@ module.exports = function (grunt) {
       },
       build: {
         expand: true,
-        cwd: 'replace',
+        cwd: 'src',
         src: '**/*.html',
         dest: 'dist/',
       },
