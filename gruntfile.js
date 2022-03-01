@@ -8,28 +8,46 @@ let index_js = fs.readFileSync('src/js/index.js', 'utf-8')
 fs.writeFileSync('src/js/index.js', index_js.replace(/const\sNODE_ENV.*/, `const NODE_ENV = '${NODE_ENV}'`))
 
 module.exports = function (grunt) {
+  grunt.loadNpmTasks('grunt-ejs')
   grunt.loadNpmTasks('grunt-babel')
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-htmlmin')
+  grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-replace')
   grunt.loadNpmTasks('grunt-postcss')
   // 默认被执行的任务列表。
-  grunt.registerTask('default', ['babel', 'uglify', 'postcss', 'cssmin', 'htmlmin', 'copy'])
+  grunt.registerTask('default', ['babel', 'ejs', 'uglify', 'postcss', 'cssmin', 'htmlmin', 'copy'])
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     babel: {
       options: {
-        presets: ['@babel/preset-env']
+        presets: ['@babel/preset-env'],
       },
       build: {
         expand: true,
         cwd: 'src',
         src: 'js/**/*.js',
         dest: 'babel/',
-      }
+      },
+    },
+    watch: {
+      files: ['src/ejs/**/*.ejs'],
+      tasks: ['ejs'],
+    },
+    ejs: {
+      options: {
+        banner: '/*! <%= pkg.description %> <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+      },
+      build: {
+        expand: true,
+        cwd: 'src/ejs',
+        src: ['**/*.ejs', '!common/**/*.ejs'],
+        dest: 'src/',
+        ext: '.html',
+      },
     },
     uglify: {
       options: {
