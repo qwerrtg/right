@@ -203,10 +203,8 @@
      */
     do() {
       if (this.throttle_time && proxy_instance) {
-        let error_result = Promise.reject(new Error('节流中...'))
-        if (proxy_instance.timeout) return error_result
+        if (proxy_instance.timeout) return Promise.reject(new Error('节流中...'))
         let result = super.do()
-        result = error_result
         proxy_instance.timeout = setTimeout(() => {
           clearTimeout(proxy_instance.timeout)
           proxy_instance = null
