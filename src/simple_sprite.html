@@ -7,20 +7,24 @@
     <link rel="shortcut icon" type="image/x-icon" href="icon/favicon.ico" />
     <title>Static Template</title>
     <link rel="stylesheet" href="css/index.css" />
-    
+
   </head>
   <body>
 
 <noscript>您的浏览器不支持运行JavaScript，部分服务可能无法享用。</noscript>
 
-<a href="simple_sprite.html">简易精灵图</a>
+<a href="simple_sprite.html" target="_blank">简易精灵图</a>
 
 <script src="lib/localforage.min.js"></script>
 <script src="lib/axios.min.js"></script>
 
-  
-  <script src="js/index.js"></script>
-  
+
 
 </body>
 </html>
+
+<script type="module">
+  import service from './js/service/service.js'
+  const { ui, http, common } = service
+  console.log(ui, http, common)
+</script>
