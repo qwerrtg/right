@@ -8,4 +8,21 @@ export default new class Util {
 
     this.search_params = new URL(location.href).searchParams
   }
+
+  // 移除常见中文标点
+  removePunctuation(string) {
+    return string.replace(/，|。|？|！|；|、！|：|“|”|《|【|】|》/g, '&emsp;')
+  }
+  
+  // 创建子类
+  createSubClass(BaseClass = PureJS) {
+    function SubClass(...args) {
+      BaseClass.apply(this, args)
+    }
+    const InheritSuper = function () {}
+    InheritSuper.prototype = BaseClass.prototype
+    SubClass.prototype = new InheritSuper()
+    SubClass.prototype.constructor = BaseClass
+    return SubClass
+  }
 }
