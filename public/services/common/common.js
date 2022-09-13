@@ -1,4 +1,4 @@
-export default new class Common {
+export const common = new class Common {
   lf = localforage
   constructor() {
     this.lf = localforage

@@ -187,7 +187,7 @@ class ProxyRequest extends BaseRequest {
   }
 }
 
-export default new class HTTP extends ProxyRequest {
+export const http = new class HTTP extends ProxyRequest {
   constructor() {
     super()
     console.log('http init success')

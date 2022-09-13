@@ -1,4 +1,4 @@
-export default new class DesignPatterns {
+export const design_patterns =  new class DesignPatterns {
   constructor() {
     this.single = {}
     this.singleton()

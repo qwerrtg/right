@@ -1,4 +1,4 @@
-export default new class Dom {
+export const dom = new class Dom {
   constructor() {
     console.log('dom init success')
     this.els = {}
