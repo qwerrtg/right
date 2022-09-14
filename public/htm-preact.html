@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>htm preact Demo</title>
+</head>
+
+<body>
+  <script type="module">
+    import { html, useState, render } from '/lib/htm-preact.min.js'
+
+    function App({ page }) {
+      const [todos, setTodos] = useState([])
+      return html`
+        <div class="app">
+          <${Header} name="ToDo's (${page})" />
+          <ul>
+            ${todos.map(todo => html`
+              <li key=${todo}>${todo}</li>
+            `)}
+          </ul>
+          <button onClick=${() => setTodos(todos.concat(`Item ${todos.length}`))}>Add Todo</button>
+          <${Footer}>footer content here<//>
+        </div>
+      `
+    }
+
+    const Header = ({ name }) => html`<h1>${name} List</h1>`
+
+    const Footer = props => html`<footer ...${props} />`
+
+    render(html`<${App} page="All" />`, document.body);
+  </script>
+</body>
+
+</html>
