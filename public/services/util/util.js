@@ -9,6 +9,14 @@ export const util = new class Util {
     this.search_params = new URL(location.href).searchParams
   }
 
+  $(selector) {
+    return document.querySelector(selector)
+  }
+
+  $$(selector) {
+    return document.querySelectorAll(selector)
+  }
+
   // 移除常见中文标点
   removePunctuation(string) {
     return string.replace(/，|。|？|！|；|、！|：|“|”|《|【|】|》/g, '&emsp;')

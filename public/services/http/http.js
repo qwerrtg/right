@@ -10,12 +10,12 @@ class BaseRequest {
    * @return {object} promise 返回一个 promise
    */
   do() {
-    return fetch(url, this.config)
+    return fetch(this.url, this.config)
       .then(data => data.json())
-      .then((result) => {
+      .then((ret) => {
         // 如果是前端拦截到的错误，直接抛出不进then
-        if (result.frontend) throw new Error(result.message)
-        return result
+        if (ret.frontend || ret.code) throw new Error(ret.info)
+        return ret.data
       })
       .catch((error) => {
         throw new Error(error.message)
