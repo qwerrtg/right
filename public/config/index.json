@@ -1,0 +1,16 @@
+{
+  "code": 0,
+  "info": "success",
+  "data": {
+    "imgs": [
+      "/img/mobile-art_001.png",
+      "/img/mobile-art_002.png",
+      "/img/mobile-art_003.png",
+      "/img/pc-art_001.png",
+      "/img/pc-art_002.png",
+      "/img/pc-art_003.png",
+      "/img/pc-art_004.png",
+      "/img/pc-art_005.png"
+    ]
+  }
+}
