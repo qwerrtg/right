@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/dev",
-    "start": "node ./bin/release"
+    "start": "node ./bin/release",
+    "build": "cd views && npm run build"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
