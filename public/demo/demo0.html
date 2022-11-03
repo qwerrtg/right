@@ -13,11 +13,13 @@
 
     #mask {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: -50%;
+      left: -50%;
+      width: 200vw;
+      height: 200vh;
       z-index: 0;
+      background: url(https://bpic.588ku.com/element_pic/20/07/01/a4f740126d52066b7409a6aea25c1e4d.jpg) 0 0 / 100% 100% no-repeat;
+      filter: blur(6px);
     }
 
     #playground {
@@ -30,32 +32,33 @@
       overflow: hidden;
     }
 
-    .horizontal {
+    .column {
       position: absolute;
       top: 0;
-      width: 100vw;
-      height: 50vh;
-      transition: top 0.2s linear;
+      left: 0;
+      width: 50vw;
+      height: 100vh;
+      transition: left .3s ease-in-out;
     }
 
-    .horizontal:nth-child(1) {
-      top: -75%;
+    .column:nth-child(1) {
+      left: -75%;
     }
 
-    .horizontal:nth-child(2) {
-      top: -25%;
+    .column:nth-child(2) {
+      left: -25%;
     }
 
-    .horizontal:nth-child(3) {
-      top: 25%;
+    .column:nth-child(3) {
+      left: 25%;
     }
 
-    .horizontal:nth-child(4) {
-      top: 75%;
+    .column:nth-child(4) {
+      left: 75%;
     }
 
-    .horizontal:nth-child(5) {
-      top: 125%;
+    .column:nth-child(5) {
+      left: 125%;
     }
 
     .preview-box {
@@ -63,31 +66,31 @@
       left: 0;
       top: 0;
       width: 50vw;
-      height: 100%;
+      height: 50vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: left .2s linear;
+      transition: top .3s ease-in-out;
     }
 
     .preview-box:nth-child(1) {
-      left: -75%;
+      top: -75%;
     }
 
     .preview-box:nth-child(2) {
-      left: -25%;
+      top: -25%;
     }
 
     .preview-box:nth-child(3) {
-      left: 25%;
+      top: 25%;
     }
 
     .preview-box:nth-child(4) {
-      left: 75%;
+      top: 75%;
     }
 
     .preview-box:nth-child(5) {
-      left: 125%;
+      top: 125%;
     }
 
     .preview-img {
@@ -96,22 +99,67 @@
       vertical-align: top;
       object-fit: cover;
       transform: scale(1.0);
-      transition: transform .2s linear;
+      transition: transform .3s ease-in-out;
     }
 
-    .horizontal:nth-child(3) .preview-box:nth-child(3) .preview-img {
+    .column:nth-child(3) .preview-box:nth-child(3) .preview-img {
       transform: scale(1.2);
+    }
+
+    #preview_img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      transform-origin: 50% 50%;
+      transform: scale(0.48);
+      transition: transform .3s ease-in-out;
+      object-fit: cover;
+      z-index: 3;
+    }
+
+    #preview_img.preview-show {
+      transform: scale(1);
+    }
+
+    .corner {
+      position: fixed;
+      left: -50vw;
+      top: -50vh;
+      width: 75vw;
+      height: 75vh;
+      z-index: 3;
+      background: url(https://bpic.588ku.com/element_pic/20/07/01/a4f740126d52066b7409a6aea25c1e4d.jpg) 0 0 / 200vw 200vh no-repeat;
+      filter: blur(6px);
+    }
+
+    .corner.corner-right {
+      left: 75vw;
+      background-position: right top;
+    }
+
+    .corner.corner-right-bottom {
+      top: 75vh;
+      left: 75vw;
+      background-position: right bottom;
+    }
+
+    .corner.corner-left-bottom {
+      top: 75vh;
+      background-position: left bottom;
     }
   </style>
 </head>
 
 <body>
-  <div class="scene">
-    <div id="mask"></div>
-    <div id="playground">
+  <div id="mask"></div>
+  <div id="playground"></div>
 
-    </div>
-  </div>
+  <div class="corner"></div>
+  <div class="corner corner-right"></div>
+  <div class="corner corner-right-bottom"></div>
+  <div class="corner corner-left-bottom"></div>
 
   <script src="/lib/hammer.js"></script>
   <script src="/lib/vconsole.js"></script>
@@ -119,6 +167,7 @@
     let vConsole = new window.VConsole()
     let camera = document.querySelector('#camera')
     let playground = document.querySelector('#playground')
+    playground.addEventListener('click', clickPlayground)
 
     function initDom() {
       const list = [
@@ -132,7 +181,7 @@
       let div
       list.forEach(sub_list => {
         div = document.createElement('div')
-        div.classList.add('horizontal')
+        div.classList.add('column')
         let box, img
         sub_list.forEach(item => {
           box = document.createElement('div')
@@ -160,21 +209,39 @@
     initDom()
     initHammer()
 
-    function horizonChange(direction) {
-      let horizontals = playground.querySelectorAll('.horizontal')
-      let current_horizontal = horizontals[2]
-      if(!current_horizontal) return
-      let boxes = Array.from(current_horizontal.querySelectorAll('.preview-box'))
+    function verticalChange(direction) {
+      let columns = playground.querySelectorAll('.column')
+      let current_column = columns[2]
+      if (!current_column) return
+      let boxes = Array.from(current_column.querySelectorAll('.preview-box'))
       let move_box = direction ? boxes[boxes.length - 1] : boxes[0]
-      if(!move_box) return
-      current_horizontal.insertAdjacentElement(direction ? 'afterbegin' : 'beforeend', move_box)
+      if (!move_box) return
+      current_column.insertAdjacentElement(direction ? 'afterbegin' : 'beforeend', move_box)
     }
 
-    function verticalChange(direction) {
-      let horizontals = Array.from(playground.querySelectorAll('.horizontal'))
-      let move_horizontal = direction ? horizontals[horizontals.length - 1] : horizontals[0]
-      if(!move_horizontal) return
-      playground.insertAdjacentElement(direction ? 'afterbegin' : 'beforeend', move_horizontal)
+    function horizonChange(direction) {
+      let columns = Array.from(playground.querySelectorAll('.column'))
+      let move_column = direction ? columns[columns.length - 1] : columns[0]
+      if (!move_column) return
+      playground.insertAdjacentElement(direction ? 'afterbegin' : 'beforeend', move_column)
+    }
+
+    function clickPlayground(e) {
+      if (e.target === document.querySelector('.column:nth-child(3) .preview-box:nth-child(3) .preview-img')) {
+        let img = e.target.cloneNode()
+        img.id = 'preview_img'
+        img.classList = ''
+        document.body.append(img)
+        img.addEventListener('click', () => {
+          img.classList.toggle('preview-show')
+          setTimeout(() => {
+            img.remove()
+          }, 300)
+        })
+        setTimeout(() => {
+          img.classList.toggle('preview-show')
+        }, 0)
+      }
     }
   </script>
 </body>
