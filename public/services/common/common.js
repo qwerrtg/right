@@ -15,4 +15,13 @@ export const common = new class Common {
     const values = Object.values(params)
     return new Function(...keys, `return \`${string}\``)(...values)
   }
+
+  nextMarco(time) {
+    if (typeof time !== 'number') time = null
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve()
+      }, time || 0)
+    })
+  }
 }
