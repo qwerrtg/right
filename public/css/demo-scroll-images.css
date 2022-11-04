@@ -1,0 +1,144 @@
+body {
+  margin: 0;
+}
+
+#mask {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200vw;
+  height: 200vh;
+  z-index: 0;
+  background: url(https://bpic.588ku.com/element_pic/20/07/01/a4f740126d52066b7409a6aea25c1e4d.jpg) 0 0 / 100% 100% no-repeat;
+  filter: blur(6px);
+}
+
+#playground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.column {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50vw;
+  height: 100vh;
+  transition: left .3s ease-in-out;
+}
+
+.column:nth-child(1) {
+  left: -75%;
+}
+
+.column:nth-child(2) {
+  left: -25%;
+}
+
+.column:nth-child(3) {
+  left: 25%;
+}
+
+.column:nth-child(4) {
+  left: 75%;
+}
+
+.column:nth-child(5) {
+  left: 125%;
+}
+
+.preview-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50vw;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: top .3s ease-in-out;
+}
+
+.preview-box:nth-child(1) {
+  top: -75%;
+}
+
+.preview-box:nth-child(2) {
+  top: -25%;
+}
+
+.preview-box:nth-child(3) {
+  top: 25%;
+}
+
+.preview-box:nth-child(4) {
+  top: 75%;
+}
+
+.preview-box:nth-child(5) {
+  top: 125%;
+}
+
+.preview-img {
+  width: 80%;
+  height: 80%;
+  vertical-align: top;
+  object-fit: cover;
+  transform: scale(1.0);
+  transition: transform .3s ease-in-out;
+  border-radius: 16px;
+}
+
+.column:nth-child(3) .preview-box:nth-child(3) .preview-img {
+  transform: scale(1.25);
+}
+
+#preview_img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transform-origin: 50% 50%;
+  transform: scale(0.5);
+  transition: transform .3s ease-in-out;
+  object-fit: cover;
+  border-radius: 40px;
+  z-index: 3;
+}
+
+#preview_img.preview-show {
+  transform: scale(1);
+}
+
+.corner {
+  position: fixed;
+  left: -50vw;
+  top: -50vh;
+  width: 75vw;
+  height: 75vh;
+  z-index: 3;
+  background: url(https://bpic.588ku.com/element_pic/20/07/01/a4f740126d52066b7409a6aea25c1e4d.jpg) 0 0 / 200vw 200vh no-repeat;
+  filter: blur(6px);
+}
+
+.corner.corner-right {
+  left: 75vw;
+  background-position: right top;
+}
+
+.corner.corner-right-bottom {
+  top: 75vh;
+  left: 75vw;
+  background-position: right bottom;
+}
+
+.corner.corner-left-bottom {
+  top: 75vh;
+  background-position: left bottom;
+}

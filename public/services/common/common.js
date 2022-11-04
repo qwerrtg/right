@@ -14,4 +14,11 @@ export const common = new class Common {
         const values = Object.values(params);
         return new Function(...keys, `return \`${string}\``)(...values);
     }
+    nextMarco(time) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(true);
+            }, time || 0);
+        });
+    }
 };

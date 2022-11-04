@@ -5,6 +5,10 @@ router.get('/', function (req, res, next) {
   res.render('index', {})
 })
 
+router.get('/demo/scroll-images/', function (req, res, next) {
+  res.render('demo/scroll-images', {})
+})
+
 router.get('/404', function (req, res, next) {
   res.render('404', {})
 })
