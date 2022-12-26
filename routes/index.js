@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/', function (req, res, next) {
-  res.render('index', {})
+  res.render('index', { title: 'template title' })
 })
 
 router.get('/demo/scroll-images/', function (req, res, next) {
