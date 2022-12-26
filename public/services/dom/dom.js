@@ -8,7 +8,7 @@ export const dom = new class Dom {
                     return target[key];
                 else {
                     if (key.match(/^\w/))
-                        target[key] = $(`#${key}`) || $(`${key}`);
+                        target[key] = this.$(`#${key}`) || this.$(`${key}`);
                     else
                         target[key] = $(key);
                     return target[key];
