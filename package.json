@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./bin/dev",
+    "dev": "concurrently 'npm run nodemon' 'npm run tw'",
+    "nodemon": "nodemon ./bin/dev",
     "tw": "tsc -w",
     "start": "node ./bin/release",
     "build": "cd views && npm run build"
@@ -17,8 +18,17 @@
     "morgan": "~1.9.1"
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.19",
     "typescript": "^4.8.4"
+  },
+  "nodemonConfig": {
+    "ignore": [".git", "node_modules", ".gitignore"],
+    "watch": ["app.js", "routes/", "bin/", "@typings/"],
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "ext": "js,json"
   }
 }
