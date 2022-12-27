@@ -24,8 +24,17 @@
     "typescript": "^4.8.4"
   },
   "nodemonConfig": {
-    "ignore": [".git", "node_modules", ".gitignore"],
-    "watch": ["app.js", "routes/", "bin/", "@typings/"],
+    "ignore": [
+      ".git",
+      "node_modules",
+      ".gitignore"
+    ],
+    "watch": [
+      "app.js",
+      "routes/",
+      "bin/",
+      "@typings/"
+    ],
     "env": {
       "NODE_ENV": "development"
     },
